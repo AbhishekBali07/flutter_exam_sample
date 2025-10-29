@@ -1,11 +1,9 @@
-
-import 'package:examsample/screens/profilePage.dart';
-import 'package:examsample/screens/searchPage.dart';
-import 'package:examsample/screens/wishlistPage.dart';
+import 'package:examsample/models/product_models.dart';
 import 'package:flutter/material.dart';
-
 import 'homepage.dart';
-
+import 'searchPage.dart';
+import 'wishlistPage.dart';
+import 'profilePage.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,23 +15,43 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    const HomePage(),
-    const SearchPage(),
-    const Wishlistpage(),
-    const Profilepage(),
-  ];
+
+  List<ProductModel> wishList = [];
+
+
+  void toggleWishlist(ProductModel product) {
+    setState(() {
+      final isWishlisted = wishList.any((item) => item.name == product.name);
+
+      if (isWishlisted) {
+        wishList.removeWhere((item) => item.name == product.name);
+      } else {
+        wishList.add(product);
+      }
+    });
+  }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    setState(() => _selectedIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      HomePage(
+        wishList: wishList,
+        onWishlistToggle: toggleWishlist,
+      ),
+       SearchPage(),
+      Wishlistpage(
+        wishList: wishList,
+        onWishlistToggle: toggleWishlist,
+      ),
+      ProfilePage(),
+    ];
+
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -48,8 +66,8 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.category),
+            label: 'Category',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border),
