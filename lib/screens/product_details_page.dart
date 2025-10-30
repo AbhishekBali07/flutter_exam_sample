@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/product_models.dart';
-import '../widgets/globals.dart';
+import '../globals.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final ProductModel product;
@@ -210,37 +210,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: /*ElevatedButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            // Check if already added
-                            final exists = cartList.any((item) => item.name == product.name);
-                            if (!exists) {
-                              cartList.add(product);
-                            }
-                          });
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Added to Cart: ${product.name}"),
-                              duration: const Duration(seconds: 1),
-                            ),
-                          );
-                        },
-
-
-                        icon: const Icon(Icons.shopping_bag_outlined,color: Colors.white,),
-                        label: Text("Add to Bag",style: TextStyle(
-                          color: Colors.white
-                        ),),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),*/
+                      child:
                       ElevatedButton.icon(
                         onPressed: () {
                           widget.onAddToCart(product);
@@ -261,11 +231,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       "Product Details",
                       style: TextStyle(

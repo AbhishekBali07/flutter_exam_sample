@@ -1,9 +1,10 @@
-import 'package:examsample/models/product_models.dart';
 import 'package:flutter/material.dart';
+import '../models/product_models.dart';
+import 'allCategoryPage.dart';
 import 'homepage.dart';
-import 'searchPage.dart';
 import 'wishlistPage.dart';
 import 'profilePage.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,14 +16,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-
   List<ProductModel> wishList = [];
-
 
   void toggleWishlist(ProductModel product) {
     setState(() {
       final isWishlisted = wishList.any((item) => item.name == product.name);
-
       if (isWishlisted) {
         wishList.removeWhere((item) => item.name == product.name);
       } else {
@@ -42,12 +40,12 @@ class _MainScreenState extends State<MainScreen> {
         wishList: wishList,
         onWishlistToggle: toggleWishlist,
       ),
-       SearchPage(),
+      const CategoryPage(), // ✅ Replaced SearchPage
       Wishlistpage(
         wishList: wishList,
         onWishlistToggle: toggleWishlist,
       ),
-      ProfilePage(),
+      const ProfilePage(),
     ];
 
     return Scaffold(

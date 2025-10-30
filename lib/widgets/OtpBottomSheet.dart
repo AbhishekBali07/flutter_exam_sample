@@ -22,7 +22,7 @@ class _OtpBottomSheetState extends State<OtpBottomSheet> {
 
   int focusedIndex = -1;
 
-  final Color primaryColor = Colors.blueAccent; // Customize main color
+  final Color primaryColor = Colors.blueAccent;
   final Color inactiveBorder = Colors.grey.shade400;
   final Color boxFillColor = Colors.blue.shade50;
 
@@ -33,10 +33,13 @@ class _OtpBottomSheetState extends State<OtpBottomSheet> {
     if (enteredOtp == widget.mockOtp) {
       widget.onVerified();
     } else {
-      Get.snackbar("Invalid", "Incorrect OTP",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red.shade50,
-          colorText: Colors.red.shade700);
+      Get.snackbar(
+        "Invalid",
+        "Incorrect OTP",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.shade50,
+        colorText: Colors.red.shade700,
+      );
     }
   }
 
@@ -68,88 +71,88 @@ class _OtpBottomSheetState extends State<OtpBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade400,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-        top: 24,
-        left: 24,
-        right: 24,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "Enter OTP",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: primaryColor,
+    return SingleChildScrollView(
+
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          top: 24,
+          left: 24,
+          right: 24,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Enter OTP",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: primaryColor,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text("Mock OTP: ${widget.mockOtp}",
-              style: TextStyle(color: Colors.grey[600])),
-          const SizedBox(height: 25),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: List.generate(4, (index) {
-              bool isFocused = focusedIndex == index;
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: boxFillColor,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: isFocused ? primaryColor : inactiveBorder,
-                    width: isFocused ? 2 : 1,
-                  ),
-                  boxShadow: isFocused
-                      ? [
-                    BoxShadow(
-                      color: primaryColor.withOpacity(0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 3),
-                    )
-                  ]
-                      : [],
-                ),
-                child: Center(
-                  child: TextField(
-                    controller: _controllers[index],
-                    focusNode: _focusNodes[index],
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    maxLength: 1,
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.bold),
-                    decoration: const InputDecoration(
-                      counterText: "",
-                      border: InputBorder.none,
+            const SizedBox(height: 10),
+            Text("Mock OTP: ${widget.mockOtp}",
+                style: TextStyle(color: Colors.grey[600])),
+            const SizedBox(height: 25),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(4, (index) {
+                bool isFocused = focusedIndex == index;
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: boxFillColor,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isFocused ? primaryColor : inactiveBorder,
+                      width: isFocused ? 2 : 1,
                     ),
-                    onChanged: (value) {
-                      if (value.isNotEmpty && index < 3) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes[index + 1]);
-                      } else if (value.isEmpty && index > 0) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes[index - 1]);
-                      }
-                    },
+                    boxShadow: isFocused
+                        ? [
+                      BoxShadow(
+                        color: primaryColor.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      )
+                    ]
+                        : [],
                   ),
-                ),
-              );
-            }),
-          ),
-          const SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.only(top:8.0,bottom: 8.0,left: 12.0,right: 12.0),
-            child: ElevatedButton(
+                  child: Center(
+                    child: TextField(
+                      controller: _controllers[index],
+                      focusNode: _focusNodes[index],
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      style: const TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                      decoration: const InputDecoration(
+                        counterText: "",
+                        border: InputBorder.none,
+                      ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty && index < 3) {
+                          FocusScope.of(context)
+                              .requestFocus(_focusNodes[index + 1]);
+                        } else if (value.isEmpty && index > 0) {
+                          FocusScope.of(context)
+                              .requestFocus(_focusNodes[index - 1]);
+                        }
+                      },
+                    ),
+                  ),
+                );
+              }),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
               onPressed: checkOtp,
               style: ElevatedButton.styleFrom(
                 backgroundColor: primaryColor,
@@ -160,9 +163,9 @@ class _OtpBottomSheetState extends State<OtpBottomSheet> {
               ),
               child: const Text("Verify OTP", style: TextStyle(fontSize: 18)),
             ),
-          ),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }

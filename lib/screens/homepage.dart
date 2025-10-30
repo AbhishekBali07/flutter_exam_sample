@@ -1,12 +1,13 @@
-import 'package:examsample/models/category_models.dart';
+
 import 'package:examsample/screens/product_details_page.dart';
-
+import 'package:examsample/screens/shopNowPage.dart';
 import 'package:flutter/material.dart';
-
+import '../../models/category_models.dart';
 import '../api/apiServices.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../models/product_models.dart';
 import 'CartPage.dart';
+import 'category_product_detailsPage.dart';
 
 class HomePage extends StatefulWidget {
   final List<ProductModel> wishList;
@@ -155,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // 🔹 Carousel (no change)
+
                     CarouselSlider(
                       options: CarouselOptions(
                         height: 180,
@@ -176,7 +177,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(height: 8),
 
-                    // 🔹 Category Section (no change)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -195,18 +195,31 @@ class _HomePageState extends State<HomePage> {
                         itemCount: categories.length,
                         itemBuilder: (context, index) {
                           final category = categories[index];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Column(
-                              children: [
-                                CircleAvatar(
-                                  radius: 28,
-                                  backgroundImage: NetworkImage(category.image),
+                          return GestureDetector(
+                            onTap: () {
+                              debugPrint("${category.name}");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => CategoryProductDetailspage(
+                                      categoryName: category.name),
                                 ),
-                                SizedBox(height: 6),
-                                Text(category.name,
-                                    style: TextStyle(fontSize: 12)),
-                              ],
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 28,
+                                    backgroundImage:
+                                        NetworkImage(category.image),
+                                  ),
+                                  SizedBox(height: 6),
+                                  Text(category.name,
+                                      style: TextStyle(fontSize: 12)),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -214,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(height: 20),
 
-                    // 🔹 Product Grid (same UI)
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -395,7 +408,14 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 24)),
                 const SizedBox(height: 6),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShopNowPage(),
+                      ),
+                    );
+                  },
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.black),
                   child: const Text("SHOP NOW",

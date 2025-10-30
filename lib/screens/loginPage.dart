@@ -11,21 +11,21 @@ class LoginPage extends StatelessWidget {
     final AuthController controller = Get.put(AuthController());
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // 🖼️ Background Image
+
           Image.asset(
             'assets/images/img1.jpg',
             fit: BoxFit.cover,
           ),
 
-          // 🧊 Dark overlay
           Container(
             color: Colors.black.withOpacity(0.4),
           ),
 
-          // 🧍 Login Form
+
           Padding(
             padding: const EdgeInsets.all(20),
             child: Center(
@@ -51,7 +51,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
 
-                        // 📱 Phone Number Input
+
                         TextField(
                           controller: controller.phoneController,
                           keyboardType: TextInputType.number,
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
 
                         const SizedBox(height: 20),
 
-                        // 🔘 Send OTP Button
+
                         ElevatedButton(
                           onPressed: () {
                             if (controller.phoneController.text.length == 10) {

@@ -17,8 +17,8 @@ class _CartPageState extends State<CartPage> {
   List<Map<String, String>> addressList = [
     {
       "name": "Abhishek",
-      "pin": "718401",
-      "address": " Hugli, West Bengal",
+      "pin": "712401",
+      "address": "Muktarpur Bali Para, Hugli, West Bengal",
     },
     {
       "name": "Rohit Sharma",

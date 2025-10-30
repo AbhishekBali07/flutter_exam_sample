@@ -1,15 +1,17 @@
-
-import 'package:examsample/screens/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
+import '../screens/homepage.dart';
+import '../screens/mainScreen.dart';
 import '../widgets/OtpBottomSheet.dart';
-
 
 class AuthController extends GetxController {
   final phoneController = TextEditingController();
   final mockOtp = "1234";
+
+  String? phoneNumber;
+  String? userName;
+  String? userEmail;
 
   void sendOtp() {
     if (phoneController.text.isEmpty) {
@@ -19,6 +21,7 @@ class AuthController extends GetxController {
     }
 
     Get.bottomSheet(
+
       OtpBottomSheet(
         mockOtp: mockOtp,
         onVerified: verifyOtp,
@@ -31,8 +34,15 @@ class AuthController extends GetxController {
   }
 
   void verifyOtp() {
-    Get.back(); // close bottom sheet
-   // Get.off(() => HomePage());
-    Get.off(()=> MainScreen());
+    phoneNumber = phoneController.text;
+    Get.back();
+    Get.off(() => const MainScreen());
+  }
+
+  @override
+  void onClose() {
+    phoneController.dispose();
+    super.onClose();
   }
 }
+

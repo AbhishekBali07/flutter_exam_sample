@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import '../controllers/authcontroller.dart';
 import 'addressPage.dart';
+import 'loginPage.dart';
 import 'orderPage.dart';
-
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,12 +13,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String userName = "Abhishek Bali";
-  String email = "abhishek@example.com";
-  String phone = "+91 9876543210";
+  final AuthController authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
+    final name = authController.userName ?? '';
+    final email = authController.userEmail ?? '';
+    final phone = authController.phoneNumber ?? '';
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -33,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // 🔹 Profile info section
+
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(16),
@@ -50,12 +53,29 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(userName,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
+                        Text(
+                          name.isNotEmpty ? name : "Add your name",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: name.isNotEmpty
+                                ? Colors.black
+                                : Colors.grey,
+                          ),
+                        ),
                         const SizedBox(height: 4),
-                        Text(email, style: const TextStyle(color: Colors.black54)),
-                        Text(phone, style: const TextStyle(color: Colors.black54)),
+                        Text(
+                          email.isNotEmpty ? email : "Add your email",
+                          style: TextStyle(
+                            color: email.isNotEmpty
+                                ? Colors.black54
+                                : Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          phone,
+                          style: const TextStyle(color: Colors.black54),
+                        ),
                       ],
                     ),
                   ),
@@ -67,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
 
-            // 🔹 Profile menu options
+
             Container(
               color: Colors.white,
               margin: const EdgeInsets.only(bottom: 8),
@@ -86,7 +106,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                   ),
                   const Divider(height: 0),
-
                   ListTile(
                     leading: const Icon(Icons.location_on_outlined,
                         color: Colors.redAccent),
@@ -103,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
 
-            // 🔹 Logout section
+
             Container(
               width: double.infinity,
               color: Colors.white,
@@ -113,9 +132,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Logged out successfully!")),
                   );
+                  // Optional: Clear data
+                   Get.offAll(() => const LoginPage());
                 },
-                icon: const Icon(Icons.logout),
-                label: const Text("Logout"),
+                icon: const Icon(Icons.logout,color: Colors.white,),
+                label: const Text("Logout",style: TextStyle(color: Colors.white),),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.redAccent,
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -129,9 +150,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _editProfileDialog() {
-    TextEditingController nameCtrl = TextEditingController(text: userName);
-    TextEditingController emailCtrl = TextEditingController(text: email);
-    TextEditingController phoneCtrl = TextEditingController(text: phone);
+    final nameCtrl = TextEditingController(text: authController.userName ?? '');
+    final emailCtrl = TextEditingController(text: authController.userEmail ?? '');
 
     showDialog(
       context: context,
@@ -148,11 +168,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 controller: emailCtrl,
                 decoration: const InputDecoration(labelText: "Email"),
               ),
-              TextField(
-                controller: phoneCtrl,
-                decoration: const InputDecoration(labelText: "Phone"),
-                keyboardType: TextInputType.phone,
-              ),
             ],
           ),
         ),
@@ -164,9 +179,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ElevatedButton(
             onPressed: () {
               setState(() {
-                userName = nameCtrl.text;
-                email = emailCtrl.text;
-                phone = phoneCtrl.text;
+                authController.userName = nameCtrl.text.trim();
+                authController.userEmail = emailCtrl.text.trim();
               });
               Navigator.pop(context);
             },

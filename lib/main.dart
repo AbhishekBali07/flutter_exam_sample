@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'GetX OTP Login',
+      title: 'Login',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const LoginPage(),
     );
